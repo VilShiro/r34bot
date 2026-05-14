@@ -3,7 +3,14 @@ package org.fbs.r34;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(
+        scanBasePackages = {
+                "org.fbs.r34.handler",
+                "org.fbs.r34.service",
+                "org.fbs.r34.rule"
+                //"org.fbs.r34.interceptor"
+        }
+)
 public class R34Application {
 
     public static void main(String[] args) {
