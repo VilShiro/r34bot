@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         scanBasePackages = {
                 "org.fbs.r34.handler",
                 "org.fbs.r34.service",
-                "org.fbs.r34.rule"
+                "org.fbs.r34.rule",
+                "org.fbs.r34.repository"
                 //"org.fbs.r34.interceptor"
         }
 )

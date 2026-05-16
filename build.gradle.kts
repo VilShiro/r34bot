@@ -19,14 +19,14 @@ repositories {
 }
 
 dependencies {
-    //implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-restclient")
     implementation("io.github.ksilisk:telegram-bot-spring-boot-starter:0.7.0")
     implementation("org.springframework:spring-aop:7.0.7")
 
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.aspectj:aspectjrt:1.9.25.1")
-    //runtimeOnly("org.postgresql:postgresql")
+    runtimeOnly("org.postgresql:postgresql")
 
     annotationProcessor("org.projectlombok:lombok")
 

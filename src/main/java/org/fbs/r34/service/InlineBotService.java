@@ -3,6 +3,8 @@ package org.fbs.r34.service;
 import com.pengrad.telegrambot.model.request.InlineQueryResultPhoto;
 import lombok.extern.log4j.Log4j2;
 import org.fbs.r34.dto.PhotoDTO;
+import org.fbs.r34.entity.SearchLog;
+import org.fbs.r34.repository.SearchLogRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.ParameterizedTypeReference;
@@ -20,6 +22,7 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SING
 public class InlineBotService {
 
     private final RestClient restClient;
+    private final SearchLogRepository searchLogRepository;
 
     @Value("${app.r34.api_key}")
     private String apiKey;
@@ -28,8 +31,13 @@ public class InlineBotService {
     @Value("${app.r34.limit}")
     private int limit;
 
-    public InlineBotService(RestClient.Builder restClientBuilder) {
+    public InlineBotService(RestClient.Builder restClientBuilder, SearchLogRepository searchLogRepository) {
         this.restClient = restClientBuilder.baseUrl("https://api.rule34.xxx").build();
+        this.searchLogRepository = searchLogRepository;
+    }
+
+    public void saveSearchLog(SearchLog searchLog) {
+        searchLogRepository.save(searchLog);
     }
 
     public InlineQueryResultPhoto[] getReadyPhotos(String offset, String query) {

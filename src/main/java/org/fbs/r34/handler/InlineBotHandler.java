@@ -8,6 +8,7 @@ import io.ksilisk.telegrambot.core.executor.TelegramBotExecutor;
 import io.ksilisk.telegrambot.core.handler.update.inline.InlineUpdateHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.fbs.r34.entity.SearchLog;
 import org.fbs.r34.service.InlineBotService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -36,11 +37,20 @@ public class InlineBotHandler implements InlineUpdateHandler {
                 query.query()
         );
 
-        int nextOffset = Math.min(limit, photos.length);
+        int nextOffset = photos.length;
 
         if (!query.offset().isEmpty()) {
             nextOffset += Integer.parseInt(query.offset());
         }
+
+        SearchLog searchLog = new SearchLog();
+        searchLog.setCurrentLimit(limit);
+        searchLog.setQuery(query.query());
+        searchLog.setUsername(query.from().username());
+        searchLog.setFirstName(query.from().firstName());
+        searchLog.setLastName(query.from().lastName());
+        searchLog.setLangCode(query.from().languageCode());
+        service.saveSearchLog(searchLog);
 
         AnswerInlineQuery answer = new AnswerInlineQuery(
                 query.id(),
