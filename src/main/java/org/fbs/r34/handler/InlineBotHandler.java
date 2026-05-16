@@ -43,14 +43,7 @@ public class InlineBotHandler implements InlineUpdateHandler {
             nextOffset += Integer.parseInt(query.offset());
         }
 
-        SearchLog searchLog = new SearchLog();
-        searchLog.setCurrentLimit(limit);
-        searchLog.setQuery(query.query());
-        searchLog.setUsername(query.from().username());
-        searchLog.setFirstName(query.from().firstName());
-        searchLog.setLastName(query.from().lastName());
-        searchLog.setLangCode(query.from().languageCode());
-        service.saveSearchLog(searchLog);
+        service.createSaveSearchLog(query);
 
         AnswerInlineQuery answer = new AnswerInlineQuery(
                 query.id(),

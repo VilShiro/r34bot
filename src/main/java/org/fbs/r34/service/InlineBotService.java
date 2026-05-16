@@ -1,17 +1,23 @@
 package org.fbs.r34.service;
 
+import com.pengrad.telegrambot.model.InlineQuery;
 import com.pengrad.telegrambot.model.request.InlineQueryResultPhoto;
 import lombok.extern.log4j.Log4j2;
 import org.fbs.r34.dto.PhotoDTO;
+import org.fbs.r34.entity.Criticality;
 import org.fbs.r34.entity.SearchLog;
+import org.fbs.r34.entity.SystemLog;
 import org.fbs.r34.repository.SearchLogRepository;
+import org.fbs.r34.repository.SystemLogRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
@@ -23,6 +29,7 @@ public class InlineBotService {
 
     private final RestClient restClient;
     private final SearchLogRepository searchLogRepository;
+    private final SystemLogRepository systemLogRepository;
 
     @Value("${app.r34.api_key}")
     private String apiKey;
@@ -31,13 +38,31 @@ public class InlineBotService {
     @Value("${app.r34.limit}")
     private int limit;
 
-    public InlineBotService(RestClient.Builder restClientBuilder, SearchLogRepository searchLogRepository) {
+    public InlineBotService(RestClient.Builder restClientBuilder,
+                            SearchLogRepository searchLogRepository,
+                            SystemLogRepository systemLogRepository) {
         this.restClient = restClientBuilder.baseUrl("https://api.rule34.xxx").build();
         this.searchLogRepository = searchLogRepository;
+        this.systemLogRepository = systemLogRepository;
     }
 
-    public void saveSearchLog(SearchLog searchLog) {
-        searchLogRepository.save(searchLog);
+    public void createSaveSearchLog(InlineQuery query) {
+        try {
+            SearchLog searchLog = new SearchLog();
+            searchLog.setCurrentLimit(limit);
+            searchLog.setQuery(query.query());
+            searchLog.setUsername(query.from().username());
+            searchLog.setFirstName(query.from().firstName());
+            searchLog.setLastName(query.from().lastName());
+            searchLog.setLangCode(query.from().languageCode());
+            searchLog.setCreatedAt(LocalDateTime.now());
+            searchLogRepository.save(searchLog);
+        } catch (Exception e) {
+            SystemLog systemLog = new SystemLog();
+            systemLog.setCreatedAt(LocalDateTime.now());
+            systemLog.setCriticality(Criticality.ERROR);
+            systemLog.setMessage(e.getMessage());
+        }
     }
 
     public InlineQueryResultPhoto[] getReadyPhotos(String offset, String query) {
