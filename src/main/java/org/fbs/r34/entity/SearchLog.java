@@ -17,25 +17,18 @@ public class SearchLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
     private String firstName;
 
-    @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
     private String langCode;
 
-    @Column(nullable = false)
     private String query;
 
-    @Column(nullable = false)
     private int currentLimit;
 
-    @Column(nullable = false)
     private LocalDateTime createdAt;
 
 }

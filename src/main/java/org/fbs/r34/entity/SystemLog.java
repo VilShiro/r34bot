@@ -17,11 +17,12 @@ public class SystemLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    private String signature;
+
+    @Column(length = 8192)
     private String message;
 
-    @Column(nullable = false)
     private Criticality criticality = Criticality.INFO;
 }

@@ -8,9 +8,7 @@ import io.ksilisk.telegrambot.core.executor.TelegramBotExecutor;
 import io.ksilisk.telegrambot.core.handler.update.inline.InlineUpdateHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.fbs.r34.entity.SearchLog;
 import org.fbs.r34.service.InlineBotService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -25,17 +23,19 @@ public class InlineBotHandler implements InlineUpdateHandler {
     private final TelegramBotExecutor botExecutor;
     private final InlineBotService service;
 
-    @Value("${app.r34.limit}")
-    private int limit;
-
     @Override
-    public void handle(Update update) {
-
+    public void handle(Update update){
         InlineQuery query = update.inlineQuery();
-        InlineQueryResultPhoto[] photos = service.getReadyPhotos(
-                query.offset(),
-                query.query()
-        );
+
+
+        InlineQueryResultPhoto[] photos;
+        try {
+            photos = service.getReadyPhotos(
+                    query
+            );
+        } catch (Throwable e) {
+            return;
+        }
 
         int nextOffset = photos.length;
 

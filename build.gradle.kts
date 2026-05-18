@@ -23,6 +23,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-restclient")
     implementation("io.github.ksilisk:telegram-bot-spring-boot-starter:0.7.0")
     implementation("org.springframework:spring-aop:7.0.7")
+    implementation("com.google.guava:guava:33.6.0-jre")
 
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.aspectj:aspectjrt:1.9.25.1")

@@ -4,15 +4,14 @@ import com.pengrad.telegrambot.model.InlineQuery;
 import io.ksilisk.telegrambot.core.handler.update.UpdateHandler;
 import io.ksilisk.telegrambot.core.matcher.Matcher;
 import io.ksilisk.telegrambot.core.rule.InlineUpdateRule;
-import io.ksilisk.telegrambot.core.rule.UpdateRule;
 import org.fbs.r34.handler.InlineBotHandler;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DefaultUpdateRule implements InlineUpdateRule {
+public class DefaultInlineRule implements InlineUpdateRule {
     private final InlineBotHandler handler;
 
-    public DefaultUpdateRule(InlineBotHandler handler) {
+    public DefaultInlineRule(InlineBotHandler handler) {
         this.handler = handler;
     }
 
