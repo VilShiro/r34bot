@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "org.fbs"
-version = "0.0.1-SNAPSHOT"
+version = "v-0.0.1"
 description = "r34"
 
 java {

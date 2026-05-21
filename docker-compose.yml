@@ -1,0 +1,25 @@
+version: '0.0.1'
+
+volumes:
+  r34_bot:
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=1111
+      - POSTGRES_USER=root
+      - POSTGRES_DB=main_db
+    volumes:
+      - r34_bot:/var/lib/postrgres/data
+    ports:
+      - "5432:5432"
+  app:
+    restart: always
+    build: .
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: 'jdbc:postgresql://db:5432/main_db'
+      JAVA_OPTS: '-Xmx512m'
