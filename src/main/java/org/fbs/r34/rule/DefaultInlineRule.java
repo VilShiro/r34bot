@@ -15,7 +15,7 @@ public class DefaultInlineRule implements InlineUpdateRule {
 
     @Override
     public Matcher<InlineQuery> matcher() {
-        return _ -> true;
+        return q -> true;
     }
 
     @Override

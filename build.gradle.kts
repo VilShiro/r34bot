@@ -10,12 +10,25 @@ description = "r34"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
 repositories {
     mavenCentral()
+}
+
+val profile = if (project.hasProperty("env")) project.property("env") else "postgres"
+
+if (profile == "sqlite") {
+    dependencies {
+        implementation("org.xerial:sqlite-jdbc:3.53.1.0")
+        implementation("org.hibernate.orm:hibernate-community-dialects:8.0.0.Alpha1")
+    }
+} else if (profile == "postgres") {
+    dependencies {
+        runtimeOnly("org.postgresql:postgresql")
+    }
 }
 
 dependencies {
@@ -25,13 +38,14 @@ dependencies {
     implementation("org.springframework:spring-aop:7.0.7")
     implementation("com.google.guava:guava:33.6.0-jre")
 
+    implementation("org.xerial:sqlite-jdbc:3.53.1.0")
+    implementation("org.hibernate.orm:hibernate-community-dialects:8.0.0.Alpha1")
+
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.aspectj:aspectjrt:1.9.25.1")
-    runtimeOnly("org.postgresql:postgresql")
 
     annotationProcessor("org.projectlombok:lombok")
 
-    //testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     testImplementation("org.springframework.boot:spring-boot-starter-restclient-test")
     testCompileOnly("org.projectlombok:lombok")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

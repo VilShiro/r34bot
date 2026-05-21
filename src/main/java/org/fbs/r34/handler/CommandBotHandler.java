@@ -41,15 +41,16 @@ public class CommandBotHandler implements CommandUpdateHandler {
 
         String[] args = update.message().text().split(" ");
         StringBuilder sb = new  StringBuilder();
+        int pageNumber = Integer.parseInt(args[1]);
 
         switch (args[0]) {
 
             case "/sendSearchLogs" -> searchLogRepository.findAll(
-                    PageRequest.of(0, 200)
+                    PageRequest.of(pageNumber, 500)
             ).forEach(object -> sb.append(object).append("\n"));
 
             case "/sendSystemLogs" -> systemLogRepository.findAll(
-                    PageRequest.of(0, 200)
+                    PageRequest.of(pageNumber, 500)
             ).forEach(object -> sb.append(object).append("\n"));
 
             default -> {

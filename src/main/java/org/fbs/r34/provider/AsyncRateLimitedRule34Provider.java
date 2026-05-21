@@ -42,7 +42,7 @@ public class AsyncRateLimitedRule34Provider implements Rule34Provider {
                 int offsetInt = 0;
                 try {
                     offsetInt = Integer.parseInt(query.offset());
-                } catch (NumberFormatException _) {}
+                } catch (NumberFormatException ignored) {}
                 int pid = offsetInt/limit;
 
                 return restClient.get().uri(

@@ -16,7 +16,7 @@ public class DefaultCommandRule implements MessageUpdateRule {
 
     @Override
     public Matcher<Message> matcher() {
-        return _ -> true;
+        return m -> true;
     }
 
     @Override
